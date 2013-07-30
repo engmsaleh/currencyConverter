@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "CurrencyPickerViewController.h"
 
-#define EXCHANGE_RATE_URL_STRING @"http://rate-exchange.appspot.com/currency?from=USD&to=EUR"
+#define EXCHANGE_RATE_URL_STRING @"http://rate-exchange.appspot.com/currency?"
+#define KLEFTLABELTAG 99
+#define KRIGHTLABELTAG 77
 
 @interface ViewController ()
 
@@ -20,9 +23,11 @@
 {
     [super viewDidLoad];
     
+    self.title = @"Currency Converter";
+    
     // Setting exchange rate to some value, so our application can work offline.
     
-    self.exchangeRate = @0.8;
+    self.exchangeRate = @0.753;
     self.updateSpinner.hidden = YES;
     
     [self.textField setReturnKeyType:UIReturnKeyDone];
@@ -33,18 +38,90 @@
     
     [self.updateButton addTarget:self action:@selector(getCurrencyUpdate) forControlEvents:UIControlEventTouchUpInside];
     [self.calculateButton addTarget:self action:@selector(calculate) forControlEvents:UIControlEventTouchUpInside];
+    [self.swapButton addTarget:self action:@selector(swap) forControlEvents:UIControlEventTouchUpInside];
     
     // Adds gesture recognizer to whole view, so it will trigger when user taps anywhere on screen but for already existing buttons. This hides the keyboard. Whole view becomes one huge button that hides keyboard on tap.
     
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:tapper];
     
+    // Adds gesture recognizer to left currency label
+    
+    UITapGestureRecognizer *tapOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callTableView:)];
+    [self.leftLabel addGestureRecognizer:tapOne];
+    
+    UITapGestureRecognizer *tapTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callTableView:)];
+    [self.rightLabel addGestureRecognizer:tapTwo];
+    
+    self.leftLabel.userInteractionEnabled = YES;
+    self.rightLabel.userInteractionEnabled = YES;
+    
+    self.leftLabel.tag = KLEFTLABELTAG;
+    self.rightLabel.tag = KRIGHTLABELTAG;
+    
+    
+    // Adding self to notification center - listening to certain notifications and calling related methods when received.
+    // The method is called and notification is provided to it.
+    
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(fromCurrencyChanged:) name:FROM_CURRENCY_CHANGED_NOTFICATION object:nil];
+    [center addObserver:self selector:@selector(toCurrencyChanged:) name:TO_CURRENCY_CHANGED_NOTIFICATION object:nil];
+    
+    self.fromCurrency = @"USD";
+    self.toCurrency = @"EUR";
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self getCurrencyUpdate];
+}
+
+
+- (void) fromCurrencyChanged:(NSNotification *) notification
+{
+    self.fromCurrency = notification.userInfo[@"currency"];
+    self.leftLabel.text = self.fromCurrency;
+    
+}
+
+- (void) toCurrencyChanged:(NSNotification *) notification
+{
+    self.toCurrency = notification.userInfo[@"currency"];
+    self.rightLabel.text = self.toCurrency;
+    
+}
+
+- (void) callTableView:(UITapGestureRecognizer *) sender
+{
+    NSString *temp;
+    
+    if (sender.view.tag == KLEFTLABELTAG) {
+        temp = @"from";
+    }
+    
+    else if (sender.view.tag) {
+        temp = @"to";
+    }
+
+    CurrencyPickerViewController *picker = [[CurrencyPickerViewController alloc] initWithString:temp];
+    [self.navigationController pushViewController:picker animated:YES];
+}
+
+- (void) swap
+{
+    NSString *temp = self.fromCurrency;
+    self.fromCurrency = self.toCurrency;
+    self.toCurrency = temp;
+    
+    self.leftLabel.text = self.fromCurrency;
+    self.rightLabel.text = self.toCurrency;
+    [self getCurrencyUpdate];
 }
 
 #pragma mark UITextField delegate methods
 
 
-    // This method adds Done button to our keyboard, calls calculations if we press it and hides keyboard.
+    // This method adds Done button to our keyboard, calls calculations if we dm it and hides keyboard.
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
@@ -71,11 +148,14 @@
     }
     
         // If the value in text field is bad, pop alert view.
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Enter a number" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-    }
+    
+        // commenting this out, since it pops every time automatic update takes place
+    
+//    else
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Enter a number" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//        [alert show];
+//    }
 }
 
     // This delegate method checks for entry only of numeric characters into text field.
@@ -106,7 +186,11 @@
     [self.updateSpinner startAnimating];
     self.updateSpinner.hidden = NO;
     
-    NSURL *url = [NSURL URLWithString:EXCHANGE_RATE_URL_STRING];
+    
+    NSString *temp = EXCHANGE_RATE_URL_STRING;
+    temp = [NSString stringWithFormat:@"%@from=%@&to=%@", temp, self.fromCurrency, self.toCurrency];
+    
+    NSURL *url = [NSURL URLWithString:temp];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     NSURLConnection *myConnection = [[NSURLConnection alloc] initWithRequest:requestObj delegate:self startImmediately:YES];
     

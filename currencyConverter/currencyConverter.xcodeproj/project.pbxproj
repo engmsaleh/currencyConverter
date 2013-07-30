@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0124C117A62AA6007B6A57 /* CurrencyPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0124C017A62AA6007B6A57 /* CurrencyPickerViewController.m */; };
 		0A0EF5D617A1903C00223180 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A0EF5D517A1903C00223180 /* UIKit.framework */; };
 		0A0EF5D817A1903C00223180 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A0EF5D717A1903C00223180 /* Foundation.framework */; };
 		0A0EF5DA17A1903C00223180 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A0EF5D917A1903C00223180 /* CoreGraphics.framework */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A0124BF17A62AA6007B6A57 /* CurrencyPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrencyPickerViewController.h; sourceTree = "<group>"; };
+		0A0124C017A62AA6007B6A57 /* CurrencyPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyPickerViewController.m; sourceTree = "<group>"; };
 		0A0EF5D217A1903C00223180 /* currencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = currencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A0EF5D517A1903C00223180 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0A0EF5D717A1903C00223180 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -89,6 +92,8 @@
 				0A0EF5EE17A1903C00223180 /* ViewController.m */,
 				0A0EF5F017A1903C00223180 /* ViewController.xib */,
 				0A0EF5DC17A1903C00223180 /* Supporting Files */,
+				0A0124BF17A62AA6007B6A57 /* CurrencyPickerViewController.h */,
+				0A0124C017A62AA6007B6A57 /* CurrencyPickerViewController.m */,
 			);
 			path = currencyConverter;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				0A0EF5E217A1903C00223180 /* main.m in Sources */,
 				0A0EF5E617A1903C00223180 /* AppDelegate.m in Sources */,
 				0A0EF5EF17A1903C00223180 /* ViewController.m in Sources */,
+				0A0124C117A62AA6007B6A57 /* CurrencyPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +304,7 @@
 				0A0EF5F717A1903C00223180 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

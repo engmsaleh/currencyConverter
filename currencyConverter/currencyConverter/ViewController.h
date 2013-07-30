@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *updateSpinner;
 
 @property (weak, nonatomic) IBOutlet UIButton *updateButton;
+@property (weak, nonatomic) IBOutlet UIButton *swapButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *mainLabel;
 
@@ -25,6 +26,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *calculateButton;
 
 @property (strong, nonatomic) NSNumber *exchangeRate;
+
+@property (strong, nonatomic) NSString *fromCurrency;
+@property (strong, nonatomic) NSString *toCurrency;
+
+
 
 
 
