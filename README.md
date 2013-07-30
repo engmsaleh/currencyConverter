@@ -1,4 +1,8 @@
-currencyConverter
+Currency Converter.
 =================
 
-Currency converter that takes data from public API and calculates the exchange rate.
+Currency converter takes rates data from public API and converts one currency to another.
+User can pick currency and amount to convert.
+
+Compatible versions - iOS6+.
+
